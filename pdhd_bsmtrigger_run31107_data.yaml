@@ -1,0 +1,16 @@
+time_last: True
+pass_name_through_stages: True
+art_out_base: proc_bsmtrigger_protodunehd
+timestamp_outname: True
+justin_stage_outname: True
+justin_jobid_outname: True
+
+
+job_stages:
+  reco:
+    fcl: run_np04data_processor_run31107.fcl
+    art_out: True
+    tfile_out: False
+    input_from: "job"
+    make_art_metadata: True
+    nevents: -1

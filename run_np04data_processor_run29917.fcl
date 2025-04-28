@@ -1,0 +1,6 @@
+#include run_master_np04data_processor.fcl
+
+physics.producers.spillflag.sps_beamdata: "spillrun029917.csv"
+
+# Set correct gain for wirecell - already set correctly in master for decoder
+physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC 
