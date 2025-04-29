@@ -124,7 +124,9 @@ else
 fi
 
 # Get correct sps spill data file for this run
-SPSDATA=$(find . -name "$UTIL_TAR/*${run}*.csv" | head -n 1)
+#SPSDATA=$(find . -name "$UTIL_TAR/*${run}*.csv" | head -n 1)
+SPSDATA=$(find "$UTIL_TAR" -type f -name "*${run}*.csv" | head -n 1)
+echo "Found sps data for run ${run}: ${SPSDATA}"
 # Copy the spsp spill data to job directory (one day can add it to the path)
 cp $SPSDATA ./
 
@@ -153,14 +155,14 @@ export LD_PRELOAD=${XROOTD_LIB}/libXrdPosixPreload.so
 
 # TODO -- metadata file configurable
 python -m beam_job_utils run_job \
-      --json ${UTIL_TAR}/${JSONFILE:-pdhd_base_meta.json} \
+      --json ${UTIL_TAR}/${JSONFILE:-pdhd_wnp04_base_meta.json} \
       --overrides ${overrides} \
       --run $run \
       --subrun $subrun \
-      --yaml ${UTIL_TAR}/${YAMLFILE:-pdhd_bsmtrigger_data.yaml} \
+      --yaml ${UTIL_TAR}/${YAMLFILE:-pdhd_bsmtrigger_run29424_data.yaml} \
       --nevents $nevents \
-      $inputflag
       --event $NSKIP \
+      $inputflag
 
 exitcode=$?
 if [ $exitcode -ne 0 ]; then

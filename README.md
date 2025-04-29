@@ -18,11 +18,17 @@ htgettoken -a htvaultprod.fnal.gov -i dune
 source tarball.sh
 ```
 
-Running tarball.sh loads all of the scripts and SPS spill data into a tarball with the env variable `$util_tar`. This is uploaded to the justin job.
+Running `tarball.sh` loads all of the scripts and SPS spill data into a tarball with the env variable `$util_tar`. This is uploaded to the justin job.
 
 To then process data use `standardsub_justin_pdhddata_command.sh`. Edit the `RUN` and `LIMIT` variables in this bash script to change the run number and limit the number of files to process from a run respectively. I could make these options command-line editable if it is useful.
+```
+source standardsub_justin_pdhddata_command.sh
+```
+Will submit a workflow for the `RUN` number of choice. You can leave `LIMIT` blank to process the full run.
 
-Changin the `RUN` number changes the metacat query and the `.yaml` configuration file requested. The `.yaml` file for a specific run calls the correct `.fcl` file, which loads the correct SPS spill data file.
+Changing the `RUN` number changes the metacat query, the `.yaml` configuration file and `.json` file for the metadata. The `.yaml` file for a specific run calls the correct `.fcl` file, which loads the correct SPS spill data file. There is a mapping in `standardsub_justin_pdhddata_command.sh` between the run number and the correct magnet wobbling configuration.
+
+The `--scope` command-line input of `justin simple-workflow` is currently set to usertests as this is the only scope that is available to me. This should be changed.
 
 For online testing you can also run `testsub_justin_pdhddata_command.sh`.
 

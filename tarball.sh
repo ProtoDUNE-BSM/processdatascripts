@@ -2,8 +2,17 @@
 
 tar -cf beam_job_utils.tar \
   beam_job_utils.py \
-  pdhd_base_meta.json \
+  pdhd_wnp04_base_meta.json \
+  pdhd_w133_base_meta.json \
   pdhd_bsmtrigger_data.yaml \
+  pdhd_bsmtrigger_run29424_data.yaml \
+  pdhd_bsmtrigger_run29425_data.yaml \
+  pdhd_bsmtrigger_run29917_data.yaml \
+  pdhd_bsmtrigger_run29918_data.yaml \
+  pdhd_bsmtrigger_run31036_data.yaml \
+  pdhd_bsmtrigger_run31107_data.yaml \
+  pdhd_bsmtrigger_run32176_data.yaml \
+  pdhd_bsmtrigger_run32177_data.yaml \
   spillrun029424.csv \
   spillrun029425.csv \
   spillrun029917.csv \

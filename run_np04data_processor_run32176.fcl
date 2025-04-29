@@ -1,4 +1,4 @@
-#include run_master_np04data_processor.fcl
+#include "run_master_np04data_processor.fcl"
 
 physics.producers.spillflag.sps_beamdata: "spillrun032176.csv"
 
