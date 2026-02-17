@@ -26,9 +26,9 @@ w133: 29917 + 29918 + 31036 + 31107 + 32176 + 32177
 EOF
 
 # Define run you want to process
-RUN=29424
-LIMIT="limit 10"
-#LIMIT=""
+RUN=31036
+#LIMIT="limit 10"
+LIMIT=""
 
 # Map wobbling configuration to run number
 case "$RUN" in
@@ -48,11 +48,18 @@ echo "Submit job for run $RUN, which was taken with T2 magnet wobbling configura
 echo "yaml file: pdhd_bsmtrigger_run${RUN}_data.yaml"
 echo "json file: pdhd_w${WOB}_base_meta.json"
 
+FNALURL='https://fndcadoor.fnal.gov:2880/dune/scratch/users'
+USERF='chasnip/ProtoDUNEBSM/PDHDBSMData/run029917'
+
 MQL_QUERY="files from dune:all where core.runs in (${RUN}) and core.run_type=hd-protodune and core.data_tier=raw and core.file_type=detector ${LIMIT}"
 
 justin simple-workflow --mql "${MQL_QUERY}" \
   --jobscript apr2025_generic_dataproc.jobscript \
-  --rss-mb 4000 --env DUNESW_VERSION=v10_05_00d00 --env UTIL_TAR=$util_tar \
+  --rss-mb 4000 --env DUNESW_VERSION=v10_12_02d00 --env UTIL_TAR=$util_tar \
   --env YAMLFILE=pdhd_bsmtrigger_run${RUN}_data.yaml --env pipyaml=1 \
   --env JSONFILE=pdhd_w${WOB}_base_meta.json --scope usertests --lifetime-days 2 \
   --output-pattern "*_protodunehd_*.root:output-test"
+  #--output-pattern "*_protodunehd_*.root:$FNALURL/$USERF"
+
+# hopefully never need to use a custom wirecell...
+#--env WIRECELL_TAR=$wirecell_tar \

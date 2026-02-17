@@ -76,9 +76,6 @@ ups active | grep dunesw
 echo "WIRECELL loc:"
 ups active | grep wirecell
  
- 
-echo "printing env"
-env
 echo "DUNE specific env vars"
 env | grep DUNE
 
