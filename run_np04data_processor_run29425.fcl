@@ -1,6 +1,48 @@
 #include "run_master_np04data_processor.fcl"
 
+# Set correct gain for wirecell - already set correctly in master for decoder
+services.DetectorPropertiesService.NumberTimeSamples: 6000
+services.DetectorPropertiesService.ReadOutWindowSize: 6000
+
+services.DetectorClocksService.TriggerOffsetTPC: -750.  # Time [us] for TPC readout start w.r.t. trigger time
+services.DetectorClocksService.G4RefTime: -750.
+
 physics.producers.spillflag.sps_beamdata: "spillrun029425.csv"
+physics.filters.filterspillon.sps_beamdata: "spillrun029425.csv"
 
 # Set correct gain for wirecell - already set correctly in master for decoder
 physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC 
+
+# Pandora can get stuck if there are too many hits to cluster
+physics.filters.nhitsfilter.HitLimit: 60000
+physics.filters.nhitsfilter.ScaleThresholdForReadoutWindow: false
+physics.filters.nhitsfilter.Verbose: true
+
+physics.produce: [
+  # Raw decoding
+  spillflag, # Add a producer for SPS spill on/off
+  triggerrawdecoder,
+  triggertypefilter, # Filter for ground shakes
+  tpcrawdecoder,
+  timingrawdecoder,
+  # Signal processing
+  fembfilter,
+  wclsdatahd,
+  # Hit finding
+  gaushit,
+  reco3d,
+  hitpdune,
+  # Remove events that have too many events for pandora to handle
+  nhitsfilter,
+  # Pandora reconstruction
+  pandora, 
+  pandoraWriter, 
+  pandoraTrack, 
+  pandoraShower, 
+  pandoracalo, 
+  pandoracalonosce,
+  pandorapid, 
+  pandoraShowercalo, 
+  pandoraShowercalonosce
+]
+

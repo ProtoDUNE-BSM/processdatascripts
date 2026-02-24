@@ -47,17 +47,6 @@ if [ -n "$DUNESW_TAR" ]; then
   echo "Set dunesw to $DUNESW_TAR"
 fi
 
-if [ -n "$WIRECELL_TAR" ]; then
-  stat ${WIRECELL_TAR}
-  if [ $? -ne 0 ]; then
-    echo "Failed to stat $WIRECELL_TAR. Exiting safely"
-    exit 0
-  fi
- 
-  export PRODUCTS=$WIRECELL_TAR:$PRODUCTS 
-  echo "Set wirecell to $WIRECELL_TAR"
-fi
-
 #Setup recent lar software suite
 DUNESW_VERSION=${DUNESW_VERSION:-v10_05_00d00}
 setup dunesw \
@@ -69,7 +58,20 @@ if [ $? -ne 0 ]; then
   echo "Failed to setup dunesw $DUNESW_VERSION $DUNE_QUALIFIER"
   exit $setup_exit
 fi
+
+if [ -n "$WIRECELL_TAR" ]; then
+  stat ${WIRECELL_TAR}
+  if [ $? -ne 0 ]; then
+    echo "Failed to stat $WIRECELL_TAR. Exiting safely"
+    exit 0
+  fi
  
+  #export PRODUCTS=$WIRECELL_TAR:$PRODUCTS
+  export WIRECELL_PATH=$WIRECELL_TAR/wire-cell-cfg:$WIRECELL_PATH
+  echo "Set wirecell to $WIRECELL_TAR"
+  echo "WIRECELL_PATH: $WIRECELL_PATH"
+fi
+
 echo "DUNESW loc:"
 ups active | grep dunesw
 

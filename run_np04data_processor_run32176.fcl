@@ -5,8 +5,8 @@
 services.DetectorPropertiesService.NumberTimeSamples: 7500
 services.DetectorPropertiesService.ReadOutWindowSize: 7500
 
-services.DetectorClocksService.TriggerOffsetTPC: -2750.  #+1500. # Time [us] for TPC readout start w.r.t. trigger time
-services.DetectorClocksService.G4RefTime: -2750. #+1500.
+services.DetectorClocksService.TriggerOffsetTPC: -2750. # Time [us] for TPC readout start w.r.t. trigger time
+services.DetectorClocksService.G4RefTime: -2750.
 
 physics.producers.spillflag.sps_beamdata: "spillrun032176.csv"
 physics.filters.filterspillon.sps_beamdata: "spillrun032176.csv"
@@ -22,7 +22,6 @@ physics.filters.nhitsfilter.Verbose: true
 physics.produce: [
   # Raw decoding
   spillflag, # Add a producer for SPS spill on/off
-  filterspillon,
   triggerrawdecoder,
   triggertypefilter, # Filter for ground shakes
   tpcrawdecoder,

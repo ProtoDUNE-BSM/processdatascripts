@@ -26,9 +26,9 @@ w133: 29917 + 29918 + 31036 + 31107 + 32176 + 32177
 EOF
 
 # Define run you want to process
-RUN=31036
-#LIMIT="limit 10"
-LIMIT=""
+RUN=29424
+LIMIT="limit 100"
+#LIMIT=""
 
 # Map wobbling configuration to run number
 case "$RUN" in
