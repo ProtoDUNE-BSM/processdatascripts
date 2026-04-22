@@ -36,6 +36,7 @@ now=$(date -u +"%Y%m%dT%H%M%SZ")
 jobid=`echo "${JUSTIN_JOBSUB_ID:-1}" | cut -f1 -d'@' | sed -e "s/\./_/"`
 stageid=${JUSTIN_STAGE_ID:-1}
 a=1
+
 if [ -n "$DUNESW_TAR" ]; then
   stat ${DUNESW_TAR}
   if [ $? -ne 0 ]; then
@@ -43,12 +44,13 @@ if [ -n "$DUNESW_TAR" ]; then
     exit 0
   fi
  
-  export PRODUCTS=$DUNESW_TAR:$PRODUCTS 
   echo "Set dunesw to $DUNESW_TAR"
+  source $DUNESW_TAR/localProducts_larsoft_v10_17_02_e26_prof/setup_grid
+  mrbslp
 fi
 
 #Setup recent lar software suite
-DUNESW_VERSION=${DUNESW_VERSION:-v10_05_00d00}
+DUNESW_VERSION=${DUNESW_VERSION:-v10_17_02d00}
 setup dunesw \
   "${DUNESW_VERSION}" \
   -q "${DUNE_QUALIFIER:-e26:prof}"

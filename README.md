@@ -6,14 +6,10 @@ We have a yaml and fcl file for each run available to process. Each yaml file ca
 First thing is needed is to get the correct certificates and generate a tarball to be uploaded with the job.
 
 ```
-kinit -f ${USER}
-kx509
-voms-proxy-init --noregen -rfc -voms dune:/dune/Role=Analysis
-(certificate system changing soon though)
-
 setup justin
 justin time
 htgettoken -a htvaultprod.fnal.gov -i dune
+justin get-token
 
 source tarball.sh
 ```
@@ -32,3 +28,8 @@ The `--scope` command-line input of `justin simple-workflow` is currently set to
 
 For online testing you can also run `testsub_justin_pdhddata_command.sh`.
 
+The user may want to run jobs using custom C++ code. For this run the tarbal maker script
+```
+source localprod_tarball.sh
+```
+This unpacks a tarball of the local products in cvmfs at location held in env variable `$localprod_tar`. You can then add this to the justin command line: `--env DUNESW_TAR=$localprod_tar`.

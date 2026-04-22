@@ -12,8 +12,7 @@ htgettoken -a htvaultprod.fnal.gov -i dune
 EOF
 
 # Define run you want to process
-RUN=29917
-#RUN=29424
+RUN=29424
 
 # Map wobbling configuration to run number
 case "$RUN" in
@@ -34,13 +33,16 @@ echo "Submit job for run $RUN, which was taken with T2 magnet wobbling configura
 echo "yaml file: pdhd_bsmtrigger_run${RUN}_data.yaml"
 echo "json file: pdhd_w${WOB}_base_meta.json"
 
-MQL_QUERY="files from dune:all where core.runs in (${RUN}) and core.run_type=hd-protodune and core.data_tier=raw and core.file_type=detector skip 1 limit 1"
+MQL_QUERY="files from dune:all where core.runs in (${RUN}) and core.run_type=hd-protodune and core.data_tier=raw and core.file_type=detector limit 1"
 
 justin-test-jobscript --mql "${MQL_QUERY}" \
   --jobscript apr2025_generic_dataproc.jobscript \
-  --env DUNESW_VERSION=v10_12_02d00 --env UTIL_TAR=$util_tar \
+  --env DUNESW_VERSION=v10_17_02d00 --env UTIL_TAR=$util_tar \
   --env YAMLFILE=pdhd_bsmtrigger_run${RUN}_data.yaml --env pipyaml=1 \
-  --env JSONFILE=pdhd_w${WOB}_base_meta.json --env NEVENTS=10 --env WIRECELL_TAR=$wirecell_tar
-  
+  --env JSONFILE=pdhd_w${WOB}_base_meta.json --env NEVENTS=1
+
+# If you want to use custom C++ code add
+#  --env DUNESW_TAR=$localprod_tar
+
 # Hopefully never need to use a custim wirecell...  
 #--env WIRECELL_TAR=$wirecell_tar

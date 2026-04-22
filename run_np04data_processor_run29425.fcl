@@ -4,8 +4,11 @@
 services.DetectorPropertiesService.NumberTimeSamples: 6000
 services.DetectorPropertiesService.ReadOutWindowSize: 6000
 
-services.DetectorClocksService.TriggerOffsetTPC: -750.  # Time [us] for TPC readout start w.r.t. trigger time
-services.DetectorClocksService.G4RefTime: -750.
+services.PD2HDChannelMapService.FileName: "PD2HDChannelMap_WIBEth_visiblewires_v1.txt"
+
+# These det clock parameters seem to break the reconstruction - do not know why
+#services.DetectorClocksService.TriggerOffsetTPC: -750.  # Time [us] for TPC readout start w.r.t. trigger time
+#services.DetectorClocksService.G4RefTime: -750.
 
 physics.producers.spillflag.sps_beamdata: "spillrun029425.csv"
 physics.filters.filterspillon.sps_beamdata: "spillrun029425.csv"
@@ -14,7 +17,7 @@ physics.filters.filterspillon.sps_beamdata: "spillrun029425.csv"
 physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC 
 
 # Pandora can get stuck if there are too many hits to cluster
-physics.filters.nhitsfilter.HitLimit: 60000
+physics.filters.nhitsfilter.HitLimit: 80000
 physics.filters.nhitsfilter.ScaleThresholdForReadoutWindow: false
 physics.filters.nhitsfilter.Verbose: true
 

@@ -2,14 +2,18 @@
 
 # run 31036 is a cosmic run - No point filtering, it is all spill off
 
-# Set correct gain for wirecell - already set correctly in master for decoder
-physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC 
-
 services.DetectorPropertiesService.NumberTimeSamples: 7500
 services.DetectorPropertiesService.ReadOutWindowSize: 7500
 
-services.DetectorClocksService.TriggerOffsetTPC: -2750. # Time [us] for TPC readout start w.r.t. trigger time
-services.DetectorClocksService.G4RefTime: -2750.
+# These det clock parameters seem to break the reconstruction - do not know why
+#services.DetectorClocksService.TriggerOffsetTPC: -2750. # Time [us] for TPC readout start w.r.t. trigger time
+#services.DetectorClocksService.G4RefTime: -2750.
+
+# For custom raw decoder module
+#=============================
+#physics.producers.tpcrawdecoder.SkipFirstNTPCTicks: 4000
+#physics.filters.fembfilter.SkipDigitCheck: true
+#=============================
 
 physics.producers.spillflag.sps_beamdata: "spillrun031036.csv"
 physics.filters.filterspilloff.sps_beamdata: "spillrun031036.csv"
@@ -18,7 +22,10 @@ physics.filters.filterspilloff.sps_beamdata: "spillrun031036.csv"
 physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC 
 
 # Pandora can get stuck if there are too many hits to cluster
-physics.filters.nhitsfilter.HitLimit: 60000
+# Would normally scale HitLimit with length of window 
+# - but with this trigger the hits are concentrated in a short time period
+# so do not need to change the hit limit
+physics.filters.nhitsfilter.HitLimit: 80000
 physics.filters.nhitsfilter.ScaleThresholdForReadoutWindow: false
 physics.filters.nhitsfilter.Verbose: true
 

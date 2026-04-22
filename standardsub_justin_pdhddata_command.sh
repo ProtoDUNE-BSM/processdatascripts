@@ -7,6 +7,7 @@ Submit jobs with justin using metacat query to find np04 BSM trigger files
 setup justin
 justin time
 htgettoken -a htvaultprod.fnal.gov -i dune
+justin get-token
 
 Use tarball.sh to upload tarball of scripts to cvmfs.
 
@@ -27,8 +28,10 @@ EOF
 
 # Define run you want to process
 RUN=29424
-LIMIT="limit 100"
-#LIMIT=""
+# If you want to limit the number of files to use in the query
+#LIMIT="limit 500"
+# Default run all files in the query
+LIMIT=""
 
 # Map wobbling configuration to run number
 case "$RUN" in
@@ -55,11 +58,16 @@ MQL_QUERY="files from dune:all where core.runs in (${RUN}) and core.run_type=hd-
 
 justin simple-workflow --mql "${MQL_QUERY}" \
   --jobscript apr2025_generic_dataproc.jobscript \
-  --rss-mb 4000 --env DUNESW_VERSION=v10_12_02d00 --env UTIL_TAR=$util_tar \
+  --rss-mb 4000 --env DUNESW_VERSION=v10_17_02d00 --env UTIL_TAR=$util_tar \
   --env YAMLFILE=pdhd_bsmtrigger_run${RUN}_data.yaml --env pipyaml=1 \
-  --env JSONFILE=pdhd_w${WOB}_base_meta.json --scope usertests --lifetime-days 2 \
+  --env JSONFILE=pdhd_w${WOB}_base_meta.json --scope usertests --lifetime-days 5 \
   --output-pattern "*_protodunehd_*.root:output-test"
-  #--output-pattern "*_protodunehd_*.root:$FNALURL/$USERF"
+
+# If you want to output to scratch
+# --output-pattern "*_protodunehd_*.root:$FNALURL/$USERF"
+
+# If you want to use custom C++ code add
+#  --env DUNESW_TAR=$localprod_tar
 
 # hopefully never need to use a custom wirecell...
-#--env WIRECELL_TAR=$wirecell_tar \
+# --env WIRECELL_TAR=$wirecell_tar \
