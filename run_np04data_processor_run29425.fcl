@@ -17,7 +17,7 @@ physics.filters.filterspillon.sps_beamdata: "spillrun029425.csv"
 physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC 
 
 # Pandora can get stuck if there are too many hits to cluster
-physics.filters.nhitsfilter.HitLimit: 80000
+physics.filters.nhitsfilter.HitLimit: 100000
 physics.filters.nhitsfilter.ScaleThresholdForReadoutWindow: false
 physics.filters.nhitsfilter.Verbose: true
 
@@ -38,7 +38,7 @@ physics.produce: [
   # Remove events that have too many events for pandora to handle
   nhitsfilter,
   # Pandora reconstruction
-  pandora, 
+  pandora,
   pandoraWriter, 
   pandoraTrack, 
   pandoraShower, 

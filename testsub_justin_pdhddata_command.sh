@@ -33,7 +33,7 @@ echo "Submit job for run $RUN, which was taken with T2 magnet wobbling configura
 echo "yaml file: pdhd_bsmtrigger_run${RUN}_data.yaml"
 echo "json file: pdhd_w${WOB}_base_meta.json"
 
-MQL_QUERY="files from dune:all where core.runs in (${RUN}) and core.run_type=hd-protodune and core.data_tier=raw and core.file_type=detector limit 1"
+MQL_QUERY="files from dune:all where core.runs in (${RUN}) and core.run_type=hd-protodune and core.data_tier=raw and core.file_type=detector skip 2 limit 1"
 
 justin-test-jobscript --mql "${MQL_QUERY}" \
   --jobscript apr2025_generic_dataproc.jobscript \

@@ -6,11 +6,6 @@ if [ -z $UTIL_TAR ]; then
   echo "Fatal must provide UTIL_TAR env var"
   exit 1
 fi
-export PYTHONPATH=$UTIL_TAR:$PYTHONPATH
-# FHICL files in tarball can be found by appending tarball to fhicl path
-export FHICL_FILE_PATH=$UTIL_TAR:$FHICL_FILE_PATH
-# May want to append util_tar to FW_SEARCH_PATH in the future (for data processing)
-#export FW_SEARCH_PATH=$UTIL_TAR:$FW_SEARCH_PATH
 
 source /cvmfs/dune.opensciencegrid.org/products/dune/setup_dune.sh
 setup metacat
@@ -54,7 +49,15 @@ DUNESW_VERSION=${DUNESW_VERSION:-v10_17_02d00}
 setup dunesw \
   "${DUNESW_VERSION}" \
   -q "${DUNE_QUALIFIER:-e26:prof}"
- 
+
+export PYTHONPATH=$UTIL_TAR:$PYTHONPATH
+# FHICL files in tarball can be found by appending tarball to fhicl path
+export FHICL_FILE_PATH=$UTIL_TAR:$FHICL_FILE_PATH
+# May want to append util_tar to FW_SEARCH_PATH in the future (for data processing)
+export FW_SEARCH_PATH=$UTIL_TAR:$FW_SEARCH_PATH
+
+echo $FW_SEARCH_PATH
+
 setup_exit=$?
 if [ $? -ne 0 ]; then
   echo "Failed to setup dunesw $DUNESW_VERSION $DUNE_QUALIFIER"

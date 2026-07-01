@@ -11,7 +11,9 @@ fi
 mkdir tar_state; cd tar_state
 cp -r ${LOCALPRODDIR} ./
 mkdir ./srcs
-
+rm -r localProducts_larsoft_v10_17_02_e26_prof/dunereco
+rm -r localProducts_larsoft_v10_17_02_e26_prof/pdhdbsmsimulation
+rm -r localProducts_larsoft_v10_17_02_e26_prof/pdhdbsmanalysis
 tar -cf beam_job_localprod.tar ./*
 
 localprod_tar=`justin-cvmfs-upload beam_job_localprod.tar`

@@ -2,6 +2,9 @@
 
 tar -cf beam_job_utils.tar \
   beam_job_utils.py \
+  PandoraSettings_Cosmic_ProtoDUNE_HD_TwoView_APA1.xml \
+  PandoraSettings_Neutrino_DUNEFD.xml \
+  PandoraSettings_Slicing_ProtoDUNE_HD_TwoView_APA1.xml \
   pdhd_wnp04_base_meta.json \
   pdhd_w133_base_meta.json \
   pdhd_bsmtrigger_data.yaml \

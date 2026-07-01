@@ -29,9 +29,9 @@ EOF
 # Define run you want to process
 RUN=29424
 # If you want to limit the number of files to use in the query
-#LIMIT="limit 500"
+LIMIT="limit 500"
 # Default run all files in the query
-LIMIT=""
+#LIMIT=""
 
 # Map wobbling configuration to run number
 case "$RUN" in
@@ -61,7 +61,7 @@ justin simple-workflow --mql "${MQL_QUERY}" \
   --rss-mb 4000 --env DUNESW_VERSION=v10_17_02d00 --env UTIL_TAR=$util_tar \
   --env YAMLFILE=pdhd_bsmtrigger_run${RUN}_data.yaml --env pipyaml=1 \
   --env JSONFILE=pdhd_w${WOB}_base_meta.json --scope usertests --lifetime-days 5 \
-  --output-pattern "*_protodunehd_*.root:output-test"
+  --output-pattern "*_protodunehd_*.root:output-test" --wall-seconds 120000 
 
 # If you want to output to scratch
 # --output-pattern "*_protodunehd_*.root:$FNALURL/$USERF"
