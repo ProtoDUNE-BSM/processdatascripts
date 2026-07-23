@@ -1,7 +1,12 @@
 #!/bin/bash
+  #PandoraSettings_Master_ProtoDUNE_HD_Neutrino.xml \
+  #PandoraSettings_Cosmic_ProtoDUNE_HD_TwoView_APA1.xml \
+  #PandoraSettings_Neutrino_DUNEFD.xml \
+  #PandoraSettings_Slicing_ProtoDUNE_HD_TwoView_APA1.xml \
 
 tar -cf beam_job_utils.tar \
   beam_job_utils.py \
+  PandoraSettings_Master_ProtoDUNE_HD_Neutrino.xml \
   PandoraSettings_Cosmic_ProtoDUNE_HD_TwoView_APA1.xml \
   PandoraSettings_Neutrino_DUNEFD.xml \
   PandoraSettings_Slicing_ProtoDUNE_HD_TwoView_APA1.xml \

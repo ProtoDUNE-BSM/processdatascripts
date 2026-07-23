@@ -4,49 +4,14 @@
 services.DetectorPropertiesService.NumberTimeSamples: 6000
 services.DetectorPropertiesService.ReadOutWindowSize: 6000
 
-services.PD2HDChannelMapService.FileName: "PD2HDChannelMap_WIBEth_visiblewires_v1.txt"
-
-services.message: @local::dune_message_services_prod_debug
-
 physics.producers.spillflag.sps_beamdata: "spillrun029424.csv"
 physics.filters.filterspillon.sps_beamdata: "spillrun029424.csv"
 
+physics.filters.saturationfilter.ThresholdTicksForSaturatedChannel: 100
+physics.filters.saturationfilter.ThresholdChannelsForRejection: 100
+
+physics.producers.wclsdatahd: @local::protodunehd_nfsp_dnnroi
 # Set correct gain for wirecell - already set correctly in master for decoder
 physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC
-
-# Pandora can get stuck if there are too many hits to cluster
-#physics.filters.nhitsfilter.HitLimit: 80000
-#physics.filters.nhitsfilter.ScaleThresholdForReadoutWindow: false
-#physics.filters.nhitsfilter.Verbose: true
-
-physics.filters.saturationfilter.ThresholdTicksForSaturatedChannel: 150
-physics.filters.saturationfilter.ThresholdChannelsForRejection: 150
-
-physics.produce: [
-  # Raw decoding
-  spillflag, # Add a producer for SPS spill on/off
-  triggerrawdecoder,
-  triggertypefilter, # Filter for ground shakes
-  tpcrawdecoder,
-  timingrawdecoder,
-  # Signal processing
-  fembfilter,
-  wclsdatahd,
-  saturationfilter,
-  # Hit finding
-  gaushit,
-  reco3d,
-  hitpdune,
-  # Remove events that have too many events for pandora to handle
-  #nhitsfilter,
-  # Pandora reconstruction
-  pandora, 
-  pandoraWriter, 
-  pandoraTrack, 
-  pandoraShower, 
-  pandoracalo, 
-  pandoracalonosce,
-  pandorapid, 
-  pandoraShowercalo, 
-  pandoraShowercalonosce
-]
+#physics.producers.wclsdatahd.wcls_main.outputers: ["wclsFrameSaver:tradspsaver"]
+#physics.producers.wclsdatahd.wcls_main.outputers: ["wclsFrameSaver:spsaver"]

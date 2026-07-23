@@ -1,6 +1,6 @@
 <pandora>
     <!-- GLOBAL SETTINGS -->
-    <IsMonitoringEnabled>true</IsMonitoringEnabled>
+    <IsMonitoringEnabled>false</IsMonitoringEnabled>
     <ShouldDisplayAlgorithmInfo>true</ShouldDisplayAlgorithmInfo>
     <SingleHitTypeClusteringMode>true</SingleHitTypeClusteringMode>
 

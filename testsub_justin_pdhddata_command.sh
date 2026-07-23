@@ -37,7 +37,7 @@ MQL_QUERY="files from dune:all where core.runs in (${RUN}) and core.run_type=hd-
 
 justin-test-jobscript --mql "${MQL_QUERY}" \
   --jobscript apr2025_generic_dataproc.jobscript \
-  --env DUNESW_VERSION=v10_17_02d00 --env UTIL_TAR=$util_tar \
+  --env DUNESW_VERSION=v10_21_01d00 --env UTIL_TAR=$util_tar \
   --env YAMLFILE=pdhd_bsmtrigger_run${RUN}_data.yaml --env pipyaml=1 \
   --env JSONFILE=pdhd_w${WOB}_base_meta.json --env NEVENTS=1
 
