@@ -1,16 +1,4 @@
-#include "run_master_np04data_processor.fcl"
-
-# Fix for long 5ms readout window of w133 runs
-services.DetectorPropertiesService.NumberTimeSamples: 7500
-services.DetectorPropertiesService.ReadOutWindowSize: 7500
+#include "run_np04data_processor_bsm_common.fcl"
 
 physics.producers.spillflag.sps_beamdata: "spillrun029917.csv"
 physics.filters.filterspillon.sps_beamdata: "spillrun029917.csv"
-
-# Set correct gain for wirecell - already set correctly in master for decoder
-physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC 
-
-physics.filters.saturationfilter.ThresholdTicksForSaturatedChannel: 100
-physics.filters.saturationfilter.ThresholdChannelsForRejection: 100
-
-physics.producers.wclsdatahd: @local::protodunehd_nfsp_dnnroi

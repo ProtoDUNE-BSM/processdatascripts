@@ -1,17 +1,6 @@
-#include "run_master_np04data_processor.fcl"
+#include "run_np04data_processor_bsm_common.fcl"
 
 # run 31036 is a cosmic run - No point filtering, it is all spill off
 
-services.DetectorPropertiesService.NumberTimeSamples: 7500
-services.DetectorPropertiesService.ReadOutWindowSize: 7500
-
 physics.producers.spillflag.sps_beamdata: "spillrun031036.csv"
 physics.filters.filterspilloff.sps_beamdata: "spillrun031036.csv"
-
-# Set correct gain for wirecell - already set correctly in master for decoder
-physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC 
-
-physics.filters.saturationfilter.ThresholdTicksForSaturatedChannel: 100
-physics.filters.saturationfilter.ThresholdChannelsForRejection: 100
-
-physics.producers.wclsdatahd: @local::protodunehd_nfsp_dnnroi

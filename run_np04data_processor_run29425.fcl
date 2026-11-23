@@ -1,16 +1,4 @@
-#include "run_master_np04data_processor.fcl"
-
-# Set correct gain for wirecell - already set correctly in master for decoder
-services.DetectorPropertiesService.NumberTimeSamples: 6000
-services.DetectorPropertiesService.ReadOutWindowSize: 6000
+#include "run_np04data_processor_bsm_common.fcl"
 
 physics.producers.spillflag.sps_beamdata: "spillrun029425.csv"
 physics.filters.filterspillon.sps_beamdata: "spillrun029425.csv"
-
-# Set correct gain for wirecell - already set correctly in master for decoder
-physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC 
-
-physics.filters.saturationfilter.ThresholdTicksForSaturatedChannel: 100
-physics.filters.saturationfilter.ThresholdChannelsForRejection: 100
-
-physics.producers.wclsdatahd: @local::protodunehd_nfsp_dnnroi

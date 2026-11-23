@@ -1,0 +1,25 @@
+# Shared by all run_np04data_processor_run<RUN>.fcl: the master chain plus the same TPC readout
+# window relative to the trigger in every run.
+# Needs the pdhdbsmcrop product (tool PDHDDataInterfaceWIBEth3Crop), passed to the grid with DUNESW_TAR.
+# The crop prolog must come before the master: FHiCL allows no prolog after other statements.
+#include "PDHDDataInterfaceWIBEth3Crop.fcl"
+#include "run_master_np04data_processor.fcl"
+
+# Crop every run to 1465 ticks before the trigger, 6836 ticks (512 ns) in total
+physics.producers.tpcrawdecoder.DecoderToolParams: @local::PDHDDataInterfaceWIBEth3CropDefaults
+
+# 6836 x 512 ns = 7000 x 500 ns after Wire-Cell resampling; trigger at 1465 x 0.512 us = 750.08 us.
+# Keep the stock relation DefaultTrigTime = DefaultBeamTime = -TriggerOffsetTPC = -G4RefTime.
+services.DetectorPropertiesService.NumberTimeSamples: 7000
+services.DetectorPropertiesService.ReadOutWindowSize: 7000
+services.DetectorClocksService.TriggerOffsetTPC: -750.08
+services.DetectorClocksService.DefaultTrigTime: 750.08
+services.DetectorClocksService.DefaultBeamTime: 750.08
+services.DetectorClocksService.G4RefTime: -750.08
+
+physics.filters.saturationfilter.ThresholdTicksForSaturatedChannel: 100
+physics.filters.saturationfilter.ThresholdChannelsForRejection: 100
+
+physics.producers.wclsdatahd: @local::protodunehd_nfsp_dnnroi
+# Must come after the line above, which replaces the whole wclsdatahd table
+physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC

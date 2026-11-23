@@ -29,6 +29,7 @@ tar -cf beam_job_utils.tar \
   spillrun031107.csv \
   spillrun032176.csv \
   spillrun032177.csv \
+  run_np04data_processor_bsm_common.fcl \
   run_np04data_processor_run29424.fcl \
   run_np04data_processor_run29425.fcl \
   run_np04data_processor_run29917.fcl \

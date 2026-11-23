@@ -1,17 +1,6 @@
-#include "run_master_np04data_processor.fcl"
+#include "run_np04data_processor_bsm_common.fcl"
 
 # 31107 is a long 57-hour SPS spill-on run
 
-services.DetectorPropertiesService.NumberTimeSamples: 7500
-services.DetectorPropertiesService.ReadOutWindowSize: 7500
-
 physics.producers.spillflag.sps_beamdata: "spillrun031107.csv"
 physics.filters.filterspillon.sps_beamdata: "spillrun031107.csv"
-
-# Set correct gain for wirecell - already set correctly in master for decoder
-physics.producers.wclsdatahd.wcls_main.structs.elecGain: 7.8 # mV/fC 
-
-physics.filters.saturationfilter.ThresholdTicksForSaturatedChannel: 100
-physics.filters.saturationfilter.ThresholdChannelsForRejection: 100
-
-physics.producers.wclsdatahd: @local::protodunehd_nfsp_dnnroi
