@@ -59,8 +59,7 @@ if [ -n "$DUNESW_TAR" ]; then
   fi
   echo "Set up local products from ${LOCALPROD}"
   source ${LOCALPROD}/setup_grid
-  # not mrbslp: it is an alias, and aliases are not expanded in a non-interactive shell
-  source ${MRB_DIR}/libexec/setup_local_products
+  mrbslp
   if ! ups active | grep -qF "${LOCALPROD}"; then
     echo "No product from ${LOCALPROD} is set up"
     exit 1
