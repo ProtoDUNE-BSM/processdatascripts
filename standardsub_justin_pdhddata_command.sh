@@ -59,6 +59,7 @@ MQL_QUERY="files from dune:all where core.runs in (${RUN}) and core.run_type=hd-
 justin simple-workflow --mql "${MQL_QUERY}" \
   --jobscript apr2025_generic_dataproc.jobscript \
   --rss-mb 8000 --env DUNESW_VERSION=v10_21_01d00 --env UTIL_TAR=$util_tar \
+  ${localprod_tar:+--env DUNESW_TAR=$localprod_tar} \
   --env YAMLFILE=pdhd_bsmtrigger_run${RUN}_data.yaml --env pipyaml=1 \
   --env JSONFILE=pdhd_w${WOB}_base_meta.json --scope usertests --lifetime-days 5 \
   --output-pattern "*_protodunehd_*.root:output-test" --wall-seconds 120000 
@@ -66,8 +67,8 @@ justin simple-workflow --mql "${MQL_QUERY}" \
 # If you want to output to scratch
 # --output-pattern "*_protodunehd_*.root:$FNALURL/$USERF"
 
-# If you want to use custom C++ code add
-#  --env DUNESW_TAR=$localprod_tar
+# The per-run FHiCLs need the pdhdbsmcrop product: set localprod_tar to its uploaded tarball
+# (the DUNESW_TAR line above is skipped when localprod_tar is unset)
 
 # hopefully never need to use a custom wirecell...
 # --env WIRECELL_TAR=$wirecell_tar \

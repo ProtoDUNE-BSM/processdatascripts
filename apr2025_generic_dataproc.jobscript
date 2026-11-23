@@ -32,23 +32,40 @@ jobid=`echo "${JUSTIN_JOBSUB_ID:-1}" | cut -f1 -d'@' | sed -e "s/\./_/"`
 stageid=${JUSTIN_STAGE_ID:-1}
 a=1
 
-if [ -n "$DUNESW_TAR" ]; then
-  stat ${DUNESW_TAR}
-  if [ $? -ne 0 ]; then
-    echo "Failed to stat $DUNESW_TAR. Exiting safely"
-    exit 0
-  fi
- 
-  echo "Set dunesw to $DUNESW_TAR"
-  source $DUNESW_TAR/localProducts_larsoft_v10_17_02_e26_prof/setup_grid
-  mrbslp
-fi
-
 #Setup recent lar software suite
-DUNESW_VERSION=${DUNESW_VERSION:-v10_17_02d00}
+DUNESW_VERSION=${DUNESW_VERSION:-v10_21_01d00}
 setup dunesw \
   "${DUNESW_VERSION}" \
   -q "${DUNE_QUALIFIER:-e26:prof}"
+setup_exit=$?
+echo "setup dunesw rc=${setup_exit}"
+# UPS can return harmless non-zero codes, so check the environment instead
+if [ -z "${DUNESW_FQ_DIR}" ] || ! type lar > /dev/null 2>&1; then
+  echo "Failed to setup dunesw ${DUNESW_VERSION} ${DUNE_QUALIFIER:-e26:prof}"
+  exit 1
+fi
+
+# Custom C++ built against this dunesw: an mrb localProducts area uploaded with justin-cvmfs-upload.
+# Set up after dunesw, so dunesw does not override the local products.
+if [ -n "$DUNESW_TAR" ]; then
+  if ! stat ${DUNESW_TAR}; then
+    echo "Failed to stat $DUNESW_TAR"
+    exit 1
+  fi
+  LOCALPROD=$(ls -d ${DUNESW_TAR}/localProducts_* 2>/dev/null | head -n 1)
+  if [ ! -f "${LOCALPROD}/setup_grid" ]; then
+    echo "No localProducts_*/setup_grid in $DUNESW_TAR"
+    exit 1
+  fi
+  echo "Set up local products from ${LOCALPROD}"
+  source ${LOCALPROD}/setup_grid
+  # not mrbslp: it is an alias, and aliases are not expanded in a non-interactive shell
+  source ${MRB_DIR}/libexec/setup_local_products
+  if ! ups active | grep -qF "${LOCALPROD}"; then
+    echo "No product from ${LOCALPROD} is set up"
+    exit 1
+  fi
+fi
 
 export PYTHONPATH=$UTIL_TAR:$PYTHONPATH
 # FHICL files in tarball can be found by appending tarball to fhicl path
@@ -57,12 +74,6 @@ export FHICL_FILE_PATH=$UTIL_TAR:$FHICL_FILE_PATH
 export FW_SEARCH_PATH=$UTIL_TAR:$FW_SEARCH_PATH
 
 echo $FW_SEARCH_PATH
-
-setup_exit=$?
-if [ $? -ne 0 ]; then
-  echo "Failed to setup dunesw $DUNESW_VERSION $DUNE_QUALIFIER"
-  exit $setup_exit
-fi
 
 if [ -n "$WIRECELL_TAR" ]; then
   stat ${WIRECELL_TAR}
